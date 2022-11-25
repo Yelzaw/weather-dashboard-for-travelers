@@ -21,8 +21,7 @@
     <div class="col-12 col-md-2">
       <div class="card">
         <h3 class="card-header text-uppercase">Search for a City:</h3>
-        <form id="search-form" class="card-body"> <!-- user-form to search-form -->
-          <!-- <label class="form-label" for="username">Username</label> username to cityname-->
+        <form id="search-form" class="card-body"> 
           <input name="cityname" id="cityname" type="text" autofocus="true" class="form-input" />
           <button type="submit" class="btn">Search</button>
         </form>
@@ -42,45 +41,45 @@
       <div class="city-data">
         <h2 >city-data-search<span id="city-data-search"></span></h2>
         <br>
-        <h4 class="data-list">Temp: xxxxxx</h4>
+        <h4 class="data-list" id="temp">Temp: xxxxxx</h4>
         <br>
-        <h4 class="data-list">Wind: xxxxxx</h4>
+        <h4 class="data-list" id="wind">Wind: xxxxxx</h4>
         <br>
-        <h4 class="data-list">Humidity: xxxxxx</h4>
+        <h4 class="data-list" id="humid">Humidity: xxxxxx</h4>
       </div>
 
       <div class="container-fluid">
-            <h2 >5-Days Forecast:<span id="5-days-forecast"></span></h2>
-            <div class="row">
-              <div class="col">
+            <h2 >5-Days Forecast:</h2>
+            <div class="row" id="five-days-forecast">
+              <div class="col bg-dark text-light m-1" id="1">
+                <p id="date"> Date: </p>
+                <div id="icon"><img id="wicon" src="" alt=""></img></div>
+                <p id="temp"> Temp: </p>
+                <p id="wind"> Wind: </p>
+                <p id="humid"> Humidity: </p>
+              </div>
+              <div class="col bg-dark text-light m-1" id="2">
                 <p> Date: </p>
                 <p> Icon </p>
                 <p> Temp: </p>
                 <p> Wind: </p>
                 <p> Humidity: </p>
               </div>
-              <div class="col">
+              <div class="col bg-dark text-light m-1" id="3">
                 <p> Date: </p>
                 <p> Icon </p>
                 <p> Temp: </p>
                 <p> Wind: </p>
                 <p> Humidity: </p>
               </div>
-              <div class="col">
+              <div class="col bg-dark text-light m-1" id="4">
                 <p> Date: </p>
                 <p> Icon </p>
                 <p> Temp: </p>
                 <p> Wind: </p>
                 <p> Humidity: </p>
               </div>
-              <div class="col">
-                <p> Date: </p>
-                <p> Icon </p>
-                <p> Temp: </p>
-                <p> Wind: </p>
-                <p> Humidity: </p>
-              </div>
-              <div class="col">
+              <div class="col bg-dark text-light m-1" id="5">
                 <p> Date: </p>
                 <p> Icon </p>
                 <p> Temp: </p>
@@ -92,7 +91,7 @@
       </div> 
     </div>
   </main>
-
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="./assets/js/script.js"></script>
 </body>
 

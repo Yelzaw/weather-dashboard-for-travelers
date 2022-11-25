@@ -2,6 +2,7 @@ var searchFormEl = document.querySelector('#search-form');
 var searchHistoryButtonsEl = document.querySelector('#search-history-buttons');
 var cityInputEl = document.querySelector('#cityname');
 var cityDataSearch = document.querySelector('#city-data-search');
+var fivedaysForecast = document.getElementById('#five-days-forecast');
 
 var formSubmitHandler = function (event) {
   event.preventDefault();
@@ -42,7 +43,15 @@ var getCityData = function (city) {
           console.log(data.list[1].main.humidity+" %");
           console.log(data.list[1].main.temp+" °F");
           console.log(data.list[1].wind.speed+" MPH");
+          var iconUrl = "http://openweathermap.org/img/w/" + data.list[1].weather[0].icon +".png";
+          var iconDescription = data.list[1].weather[0].description;
 
+          $('#1').children('#date').text((data.list[1].dt_txt).substr(0,10)); //date
+          $('#1').children('#temp').text("Temp: "+data.list[1].main.temp+" °F"); //temp
+          $('#1').children('#wind').text("Wind: "+data.list[1].wind.speed+" MPH"); //wind
+          $('#1').children('#humid').text("Humidity: "+data.list[1].main.humidity+" %"); //Humidity
+          $('#wicon').attr('src', iconUrl);
+          $('#wicon').attr('alt', iconDescription);
           // displayRepos(data, city);
         });
       } else {
