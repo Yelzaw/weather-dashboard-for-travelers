@@ -39,9 +39,9 @@ var getCityData = function (city) {
         response.json().then(function (data) {
           console.log(data);
           console.log(data.list[1].dt_txt);
-          console.log(data.list[1].main.humidity);
-          console.log(data.list[1].main.temp);
-          console.log(data.list[1].wind.speed);
+          console.log(data.list[1].main.humidity+" %");
+          console.log(data.list[1].main.temp+" °F");
+          console.log(data.list[1].wind.speed+" MPH");
 
           // displayRepos(data, city);
         });
