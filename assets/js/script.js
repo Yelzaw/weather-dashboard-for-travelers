@@ -47,6 +47,7 @@ var getCityData = function (city) {
           cityDataSearch.textContent = data1.name+" ("+(dayjs().format("MMM D, YYYY"))+")";
           $('#hicon').attr('src', iconUrl);
           $('#hicon').attr('alt', iconDescription);
+          $('#weather-descr').text(iconDescription);
           $('.city-data').children('#temp').text("Temp: "+data1.main.temp+" °F"); //temp
           $('.city-data').children('#wind').text("Wind: "+data1.wind.speed+" MPH"); //wind
           $('.city-data').children('#humid').text("Humidity: "+data1.main.humidity+" %"); //Humidity
