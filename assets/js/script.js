@@ -2,7 +2,7 @@ var searchFormEl = document.querySelector('#search-form');
 var searchHistoryButtonsEl = document.querySelector('#search-history-buttons');
 var cityInputEl = document.querySelector('#cityname');
 var cityDataSearch = document.querySelector('#city-name');
-var fivedaysForecast = document.getElementById('#five-days-forecast');
+var fivedaysForecast = document.querySelector('#five-days-forecast');
 
 var formSubmitHandler = function (event) {
   event.preventDefault();
@@ -66,18 +66,7 @@ var getCityData = function (city) {
         // console.log(response);
         response.json().then(function (data) {
           console.log(data);
-          
-          console.log(data.list[i].dt_txt);
-          console.log(data.list[i].main.humidity+" %");
-          console.log(data.list[i].main.temp+" °F");
-          console.log(data.list[i].wind.speed+" MPH");
-          
-          
-            
-           //date
-          
-                    
-          // displayRepos(data, city);
+          displayWeather(data);
         });
       } else {
         alert('Error: ' + response.statusText);
@@ -88,40 +77,44 @@ var getCityData = function (city) {
     });
 };
 
-function displayWeather(weather, cityName) {
+function displayWeather(weather) {
   if (weather.length===0) {
     fivedaysForecast.textContent = "No Weather Status found";
     return;
   }
 
-  for (var i=4; i < 24; i=i+8) {
+  for (var i=3; i < 40; i=i+8) {
     var dayBoxEl = document.createElement("div");
     dayBoxEl.classList="col bg-dark text-light m-1";
-
+    
+    
     var dateWeatherEl = document.createElement("p");
-    dateWeatherEl.textContent = (data.list[i].dt_txt).substr(0,10);
+    dateWeatherEl.textContent = ((weather.list[i].dt_txt).substr(0,10));
     dayBoxEl.appendChild(dateWeatherEl);
+
     var iconWeatherEl = document.createElement("div");
-    var iconUrl = "http://openweathermap.org/img/w/" + data.list[i].weather[0].icon +".png";
-    var iconDescription = data.list[i].weather[0].description;
+    var iconUrl = "http://openweathermap.org/img/w/" + weather.list[i].weather[0].icon +".png";
+    var iconDescription = weather.list[i].weather[0].description;
     iconWeatherEl.innerHTML='<img id="wicon" src="'+iconUrl+'" alt="'+iconDescription+'"></img>';
     dayBoxEl.appendChild(iconWeatherEl);
+
     // $('#wicon').attr('src', iconUrl);
     // $('#wicon').attr('alt', iconDescription);
     var tempWeatherEl = document.createElement("p");
-    tempWeatherEl.textContent = "Temp: "+data.list[i].main.temp+" °F";
+    tempWeatherEl.textContent = "Temp: "+weather.list[i].main.temp+" °F";
+    dayBoxEl.appendChild(tempWeatherEl);
 
     var windWeatherEl = document.createElement("p");
-    windWeatherEl.textContent = "Wind: "+data.list[i].wind.speed+" MPH";
+    windWeatherEl.textContent = "Wind: "+weather.list[i].wind.speed+" MPH";
+    dayBoxEl.appendChild(windWeatherEl);
 
     var humidWeatherEl = document.createElement("p");
-    humidWeatherEl.textContent =
-
-    $('#2').children('#temp').text(); //temp
-          $('#[j]').children('#wind').text(); //wind
-          $('#[j]').children('#humid').text("Humidity: "+data.list[i].main.humidity+" %"); //Humidity
-        
-  }
+    humidWeatherEl.textContent = "Humidity: "+weather.list[i].main.humidity+" %"; 
+    dayBoxEl.appendChild(humidWeatherEl);
+    console.log(dayBoxEl);
+    fivedaysForecast.appendChild(dayBoxEl);
+    
+  };
 }
 
 // var getFeaturedRepos = function (language) {
