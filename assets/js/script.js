@@ -1,7 +1,7 @@
 var searchFormEl = document.querySelector('#search-form');
 var searchHistoryButtonsEl = document.querySelector('#search-history-buttons');
 var cityInputEl = document.querySelector('#cityname');
-var cityDataSearch = document.querySelector('#city-data-search');
+var cityDataSearch = document.querySelector('#city-name');
 var fivedaysForecast = document.getElementById('#five-days-forecast');
 
 var formSubmitHandler = function (event) {
@@ -30,28 +30,53 @@ var formSubmitHandler = function (event) {
 // };
 
 var getCityData = function (city) {
-  var apiKey = "916dbda628645c79f5666248b6b1d5d5"
-  var apiUrl = "https://api.openweathermap.org/data/2.5/forecast?q="+city+"&appid="+apiKey+"&units=imperial";//Fahrenheit,Imperial: miles/hour.
 
-  fetch(apiUrl)
+  var apiKey = "916dbda628645c79f5666248b6b1d5d5"
+  var apiUrlCurrent = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+apiKey+"&units=imperial";
+  var apiUrlForecast = "https://api.openweathermap.org/data/2.5/forecast?q="+city+"&appid="+apiKey+"&units=imperial";//Fahrenheit,Imperial: miles/hour.
+
+  fetch(apiUrlCurrent)
+    .then(function(response){
+      if(response.ok){
+        console.log(response);
+        response.json().then(function(data1){          
+          
+          var iconUrl = "http://openweathermap.org/img/w/" + data1.weather[0].icon +".png";
+          var iconDescription = data1.weather[0].description;
+
+          cityDataSearch.textContent = data1.name+" ("+(dayjs().format("MMM D, YYYY"))+")";
+          $('#hicon').attr('src', iconUrl);
+          $('#hicon').attr('alt', iconDescription);
+          $('.city-data').children('#temp').text("Temp: "+data1.main.temp+" °F"); //temp
+          $('.city-data').children('#wind').text("Wind: "+data1.wind.speed+" MPH"); //wind
+          $('.city-data').children('#humid').text("Humidity: "+data1.main.humidity+" %"); //Humidity
+
+        })
+      } else {
+      alert('Error: ' + response.statusText);
+      }
+    })
+  .catch(function (error) {
+    alert('Unable to connect to Openweathermap');
+  });
+
+  fetch(apiUrlForecast)
     .then(function (response) {
       if (response.ok) {
-        console.log(response);
+        // console.log(response);
         response.json().then(function (data) {
           console.log(data);
-          console.log(data.list[1].dt_txt);
-          console.log(data.list[1].main.humidity+" %");
-          console.log(data.list[1].main.temp+" °F");
-          console.log(data.list[1].wind.speed+" MPH");
-          var iconUrl = "http://openweathermap.org/img/w/" + data.list[1].weather[0].icon +".png";
-          var iconDescription = data.list[1].weather[0].description;
-
-          $('#1').children('#date').text((data.list[1].dt_txt).substr(0,10)); //date
-          $('#1').children('#temp').text("Temp: "+data.list[1].main.temp+" °F"); //temp
-          $('#1').children('#wind').text("Wind: "+data.list[1].wind.speed+" MPH"); //wind
-          $('#1').children('#humid').text("Humidity: "+data.list[1].main.humidity+" %"); //Humidity
-          $('#wicon').attr('src', iconUrl);
-          $('#wicon').attr('alt', iconDescription);
+          
+          console.log(data.list[i].dt_txt);
+          console.log(data.list[i].main.humidity+" %");
+          console.log(data.list[i].main.temp+" °F");
+          console.log(data.list[i].wind.speed+" MPH");
+          
+          
+            
+           //date
+          
+                    
           // displayRepos(data, city);
         });
       } else {
@@ -62,6 +87,42 @@ var getCityData = function (city) {
       alert('Unable to connect to Openweathermap');
     });
 };
+
+function displayWeather(weather, cityName) {
+  if (weather.length===0) {
+    fivedaysForecast.textContent = "No Weather Status found";
+    return;
+  }
+
+  for (var i=4; i < 24; i=i+8) {
+    var dayBoxEl = document.createElement("div");
+    dayBoxEl.classList="col bg-dark text-light m-1";
+
+    var dateWeatherEl = document.createElement("p");
+    dateWeatherEl.textContent = (data.list[i].dt_txt).substr(0,10);
+    dayBoxEl.appendChild(dateWeatherEl);
+    var iconWeatherEl = document.createElement("div");
+    var iconUrl = "http://openweathermap.org/img/w/" + data.list[i].weather[0].icon +".png";
+    var iconDescription = data.list[i].weather[0].description;
+    iconWeatherEl.innerHTML='<img id="wicon" src="'+iconUrl+'" alt="'+iconDescription+'"></img>';
+    dayBoxEl.appendChild(iconWeatherEl);
+    // $('#wicon').attr('src', iconUrl);
+    // $('#wicon').attr('alt', iconDescription);
+    var tempWeatherEl = document.createElement("p");
+    tempWeatherEl.textContent = "Temp: "+data.list[i].main.temp+" °F";
+
+    var windWeatherEl = document.createElement("p");
+    windWeatherEl.textContent = "Wind: "+data.list[i].wind.speed+" MPH";
+
+    var humidWeatherEl = document.createElement("p");
+    humidWeatherEl.textContent =
+
+    $('#2').children('#temp').text(); //temp
+          $('#[j]').children('#wind').text(); //wind
+          $('#[j]').children('#humid').text("Humidity: "+data.list[i].main.humidity+" %"); //Humidity
+        
+  }
+}
 
 // var getFeaturedRepos = function (language) {
 //   var apiUrl = 'https://api.github.com/search/repositories?q=' + language + '+is:featured&sort=help-wanted-issues';
