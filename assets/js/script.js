@@ -5,6 +5,7 @@ var cityDataSearch = document.querySelector('#city-name');
 var fivedaysForecast = document.querySelector('#five-days-forecast');
 var cityList = [];
 
+// get city name from input text and send to getCityData function
 var formSubmitHandler = function (event) {
   event.preventDefault();
 
@@ -17,6 +18,7 @@ var formSubmitHandler = function (event) {
   }
 };
 
+// Store the search history in array, and store in local
 function storeCityList(name) {
   if (!cityList.includes(name)){
   cityList.push(name);
@@ -24,6 +26,7 @@ function storeCityList(name) {
   }
 }
 
+// show the city name of search history from array
 function renderCityList(){
   if (cityList.length!==0){
     $('#search-history').attr('style','display:block'); 
@@ -37,6 +40,7 @@ function renderCityList(){
   
 }
 
+// get search history from local sotrage and show on browser
 function init() {
   var storedCities = JSON.parse(localStorage.getItem("citylist"));
   if (storedCities!==null){
@@ -45,6 +49,7 @@ function init() {
   renderCityList();
 }
 
+//call function for selected city from search history to show weather data
 var buttonClickHandler = function (event) {
   var city = event.target.getAttribute('value');
   if (city) {
@@ -52,12 +57,12 @@ var buttonClickHandler = function (event) {
   }
 };
 
+//base on city name, connect to openweathermap and grab the data with API
 var getCityData = function (city) {
-
   var apiKey = "916dbda628645c79f5666248b6b1d5d5"
   var apiUrlCurrent = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+apiKey+"&units=imperial";
   var apiUrlForecast = "https://api.openweathermap.org/data/2.5/forecast?q="+city+"&appid="+apiKey+"&units=imperial";//Fahrenheit,Imperial: miles/hour.
-
+//grab the weather data for current weather and show on browser
   fetch(apiUrlCurrent)
     .then(function(response){
       if(response.ok){
@@ -83,7 +88,7 @@ var getCityData = function (city) {
   .catch(function (error) {
     alert('Unable to connect to Openweathermap');
   });
-
+//grab the weather data for 5 days of forecast weather
   fetch(apiUrlForecast)
     .then(function (response) {
       if (response.ok) {
@@ -99,6 +104,7 @@ var getCityData = function (city) {
     });
 };
 
+//show the 5 days of forecast weather 
 function displayWeather(weather) {
   if (weather.length===0) {
     fivedaysForecast.textContent = "No Weather Status found";
@@ -138,10 +144,13 @@ function displayWeather(weather) {
   };
 }
 
+
 init();
 
 searchFormEl.addEventListener('submit', formSubmitHandler);
+//get the data for selected city from history list
 searchHistoryListEl.addEventListener('click', buttonClickHandler);
+
 //clear search history
 $(".clearBtn").on("click",function(){
   localStorage.clear();
