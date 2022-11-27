@@ -104,6 +104,11 @@ p {
   display: inline-block;
 }
 
+#search-history{
+  display: none;
+  border-top-style: groove;
+}
+
 .city-data {
   display: none;
   border-style: solid;
@@ -167,8 +172,9 @@ p {
   border-radius: calc(.18rem - 1px) calc(.18rem - 1px) 0 0;
 }
 
-.card-body {
+.card-body {  
   padding: 2.5%;
+  text-align: center;
 }
 
 /* FORM */

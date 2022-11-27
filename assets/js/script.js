@@ -25,13 +25,13 @@ function storeCityList(name) {
 }
 
 function renderCityList(){
+  if (cityList.length!==0){
+    $('#search-history').attr('style','display:block'); 
+  } 
   searchHistoryListEl.innerHTML = "";
   for (var i=0; i<cityList.length; i++){
     var listcity = cityList[i];
-    // var li = document.createElement("p");
     $('#search-history-lists').append(`<p><button class="btn" value="${listcity}">${listcity}</button></p>`);
-    // li.textContent = listcity;
-    // searchHistoryListEl.appendChild(li);
   }
 }
 
@@ -42,15 +42,13 @@ function init() {
   }
   renderCityList();
 }
-// var listClickHandler = function (event) {
-//   var city = event.target.getAttribute('data-language');
 
-//   if (language) {
-//     getFeaturedRepos(language);
-
-//     repoContainerEl.textContent = '';
-//   }
-// };
+var buttonClickHandler = function (event) {
+  var city = event.target.getAttribute('value');
+  if (city) {
+    getCityData(city);
+  }
+};
 
 var getCityData = function (city) {
 
@@ -141,19 +139,7 @@ function displayWeather(weather) {
   };
 }
 
-// var getFeaturedRepos = function (language) {
-//   var apiUrl = 'https://api.github.com/search/repositories?q=' + language + '+is:featured&sort=help-wanted-issues';
-
-//   fetch(apiUrl).then(function (response) {
-//     if (response.ok) {
-//       response.json().then(function (data) {
-//         displayRepos(data.items, language);
-//       });
-//     } else {
-//       alert('Error: ' + response.statusText);
-//     }
-//   });
-// };
 init();
+
 searchFormEl.addEventListener('submit', formSubmitHandler);
-// languageButtonsEl.addEventListener('click', buttonClickHandler);
+searchHistoryListEl.addEventListener('click', buttonClickHandler);
