@@ -112,6 +112,7 @@ p {
 }
 
 .city-data {
+  display: none;
   border-style: solid;
   border-color: #788585;
   padding: 20px;

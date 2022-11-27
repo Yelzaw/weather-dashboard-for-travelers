@@ -1,24 +1,46 @@
 var searchFormEl = document.querySelector('#search-form');
-var searchHistoryButtonsEl = document.querySelector('#search-history-buttons');
+var searchHistoryListEl = document.querySelector('#search-history-lists');
 var cityInputEl = document.querySelector('#cityname');
 var cityDataSearch = document.querySelector('#city-name');
 var fivedaysForecast = document.querySelector('#five-days-forecast');
+var cityList = [];
 
 var formSubmitHandler = function (event) {
   event.preventDefault();
 
-  var cityname = cityInputEl.value.trim();
-
+  var cityname = cityInputEl.value.trim();  
   if (cityname) {
     getCityData(cityname);
-
-    // repoContainerEl.textContent = '';
-    cityInputEl.value = '';
+    cityInputEl.value = '';    
   } else {
     alert('Please enter a city name');
   }
 };
 
+function storeCityList(name) {
+  if (!cityList.includes(name)){
+  cityList.push(name);
+  localStorage.setItem("citylist", JSON.stringify(cityList));
+  }
+}
+
+function renderCityList(){
+  searchHistoryListEl.innerHTML = "";
+  for (var i=0; i<cityList.length; i++){
+    var listcity = cityList[i];
+    var li = document.createElement("p");
+    li.textContent = listcity;
+    searchHistoryListEl.appendChild(li);
+  }
+}
+
+function init() {
+  var storedCities = JSON.parse(localStorage.getItem("citylist"));
+  if (storedCities!==null){
+    cityList = storedCities;
+  }
+  renderCityList();
+}
 // var buttonClickHandler = function (event) {
 //   var language = event.target.getAttribute('data-language');
 
@@ -43,7 +65,7 @@ var getCityData = function (city) {
           
           var iconUrl = "http://openweathermap.org/img/w/" + data1.weather[0].icon +".png";
           var iconDescription = data1.weather[0].description;
-
+          $('.city-data').attr('style','display:block');
           cityDataSearch.textContent = data1.name+" ("+(dayjs().format("MMM D, YYYY"))+")";
           $('#hicon').attr('src', iconUrl);
           $('#hicon').attr('alt', iconDescription);
@@ -51,7 +73,8 @@ var getCityData = function (city) {
           $('.city-data').children('#temp').text("Temp: "+data1.main.temp+" °F"); //temp
           $('.city-data').children('#wind').text("Wind: "+data1.wind.speed+" MPH"); //wind
           $('.city-data').children('#humid').text("Humidity: "+data1.main.humidity+" %"); //Humidity
-
+          storeCityList(data1.name);
+          renderCityList();
         })
       } else {
       alert('Error: ' + response.statusText);
@@ -64,7 +87,6 @@ var getCityData = function (city) {
   fetch(apiUrlForecast)
     .then(function (response) {
       if (response.ok) {
-        // console.log(response);
         response.json().then(function (data) {
           console.log(data);
           displayWeather(data);
@@ -82,12 +104,15 @@ function displayWeather(weather) {
   if (weather.length===0) {
     fivedaysForecast.textContent = "No Weather Status found";
     return;
+  } 
+  else {
+    $("#five-days-forecast").siblings("h2").text("5-Days Forecast:");
+    fivedaysForecast.innerHTML="";
   }
 
   for (var i=3; i < 40; i=i+8) {
     var dayBoxEl = document.createElement("div");
-    dayBoxEl.classList="col bg-dark text-light m-1";
-    
+    dayBoxEl.classList="col bg-dark text-light m-1";    
     
     var dateWeatherEl = document.createElement("p");
     dateWeatherEl.textContent = ((weather.list[i].dt_txt).substr(0,10));
@@ -99,8 +124,6 @@ function displayWeather(weather) {
     iconWeatherEl.innerHTML='<img id="wicon" src="'+iconUrl+'" alt="'+iconDescription+'"></img>';
     dayBoxEl.appendChild(iconWeatherEl);
 
-    // $('#wicon').attr('src', iconUrl);
-    // $('#wicon').attr('alt', iconDescription);
     var tempWeatherEl = document.createElement("p");
     tempWeatherEl.textContent = "Temp: "+weather.list[i].main.temp+" °F";
     dayBoxEl.appendChild(tempWeatherEl);
@@ -113,8 +136,7 @@ function displayWeather(weather) {
     humidWeatherEl.textContent = "Humidity: "+weather.list[i].main.humidity+" %"; 
     dayBoxEl.appendChild(humidWeatherEl);
     console.log(dayBoxEl);
-    fivedaysForecast.appendChild(dayBoxEl);
-    
+    fivedaysForecast.appendChild(dayBoxEl);    
   };
 }
 
@@ -131,42 +153,6 @@ function displayWeather(weather) {
 //     }
 //   });
 // };
-
-// var displayRepos = function (repos, searchTerm) {
-//   if (repos.length === 0) {
-//     repoContainerEl.textContent = 'No repositories found.';
-//     return;
-//   }
-
-//   repoSearchTerm.textContent = searchTerm;
-
-//   for (var i = 0; i < repos.length; i++) {
-//     var repoName = repos[i].owner.login + '/' + repos[i].name;
-
-//     var repoEl = document.createElement('a');
-//     repoEl.classList = 'list-item flex-row justify-space-between align-center';
-//     repoEl.setAttribute('href', './single-repo.html?repo=' + repoName);
-
-//     var titleEl = document.createElement('span');
-//     titleEl.textContent = repoName;
-
-//     repoEl.appendChild(titleEl);
-
-//     var statusEl = document.createElement('span');
-//     statusEl.classList = 'flex-row align-center';
-
-//     if (repos[i].open_issues_count > 0) {
-//       statusEl.innerHTML =
-//         "<i class='fas fa-times status-icon icon-danger'></i>" + repos[i].open_issues_count + ' issue(s)';
-//     } else {
-//       statusEl.innerHTML = "<i class='fas fa-check-square status-icon icon-success'></i>";
-//     }
-
-//     repoEl.appendChild(statusEl);
-
-//     repoContainerEl.appendChild(repoEl);
-//   }
-// };
-
+init();
 searchFormEl.addEventListener('submit', formSubmitHandler);
 // languageButtonsEl.addEventListener('click', buttonClickHandler);
