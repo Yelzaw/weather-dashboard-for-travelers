@@ -27,12 +27,14 @@ function storeCityList(name) {
 function renderCityList(){
   if (cityList.length!==0){
     $('#search-history').attr('style','display:block'); 
+    $('.clearBtn').attr('style','display:block'); 
   } 
   searchHistoryListEl.innerHTML = "";
   for (var i=0; i<cityList.length; i++){
     var listcity = cityList[i];
     $('#search-history-lists').append(`<p><button class="btn" value="${listcity}">${listcity}</button></p>`);
   }
+  
 }
 
 function init() {
@@ -59,7 +61,6 @@ var getCityData = function (city) {
   fetch(apiUrlCurrent)
     .then(function(response){
       if(response.ok){
-        console.log(response);
         response.json().then(function(data1){          
           
           var iconUrl = "http://openweathermap.org/img/w/" + data1.weather[0].icon +".png";
@@ -87,7 +88,6 @@ var getCityData = function (city) {
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
-          console.log(data);
           displayWeather(data);
         });
       } else {
@@ -134,7 +134,6 @@ function displayWeather(weather) {
     var humidWeatherEl = document.createElement("p");
     humidWeatherEl.textContent = "Humidity: "+weather.list[i].main.humidity+" %"; 
     dayBoxEl.appendChild(humidWeatherEl);
-    console.log(dayBoxEl);
     fivedaysForecast.appendChild(dayBoxEl);    
   };
 }
@@ -143,3 +142,8 @@ init();
 
 searchFormEl.addEventListener('submit', formSubmitHandler);
 searchHistoryListEl.addEventListener('click', buttonClickHandler);
+//clear search history
+$(".clearBtn").on("click",function(){
+  localStorage.clear();
+  location.reload();
+})

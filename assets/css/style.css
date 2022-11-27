@@ -109,6 +109,11 @@ p {
   border-top-style: groove;
 }
 
+.clearBtn{
+  display: none;
+  cursor: pointer;
+}
+
 .city-data {
   display: none;
   border-style: solid;
