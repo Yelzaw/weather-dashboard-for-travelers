@@ -28,9 +28,10 @@ function renderCityList(){
   searchHistoryListEl.innerHTML = "";
   for (var i=0; i<cityList.length; i++){
     var listcity = cityList[i];
-    var li = document.createElement("p");
-    li.textContent = listcity;
-    searchHistoryListEl.appendChild(li);
+    // var li = document.createElement("p");
+    $('#search-history-lists').append(`<p><button class="btn" value="${listcity}">${listcity}</button></p>`);
+    // li.textContent = listcity;
+    // searchHistoryListEl.appendChild(li);
   }
 }
 
@@ -41,8 +42,8 @@ function init() {
   }
   renderCityList();
 }
-// var buttonClickHandler = function (event) {
-//   var language = event.target.getAttribute('data-language');
+// var listClickHandler = function (event) {
+//   var city = event.target.getAttribute('data-language');
 
 //   if (language) {
 //     getFeaturedRepos(language);
