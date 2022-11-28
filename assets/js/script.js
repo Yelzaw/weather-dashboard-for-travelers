@@ -115,7 +115,14 @@ function displayWeather(weather) {
     fivedaysForecast.innerHTML="";
   }
 
-  for (var i=3; i < 40; i=i+8) {
+  for (var i=0; i < 40; i++) {
+
+    // to select exact time for the day, using hours as filter to get 5 days
+
+    var hours = ((weather.list[i].dt_txt).substr(11,19));
+
+    if (hours=="09:00:00") {
+
     var dayBoxEl = document.createElement("div");
     dayBoxEl.classList="col bg-dark text-light m-1";    
     
@@ -141,13 +148,15 @@ function displayWeather(weather) {
     humidWeatherEl.textContent = "Humidity: "+weather.list[i].main.humidity+" %"; 
     dayBoxEl.appendChild(humidWeatherEl);
     fivedaysForecast.appendChild(dayBoxEl);    
-  };
+    };
+  }
 }
 
 
 init();
 
 searchFormEl.addEventListener('submit', formSubmitHandler);
+
 //get the data for selected city from history list
 searchHistoryListEl.addEventListener('click', buttonClickHandler);
 
