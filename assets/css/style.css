@@ -60,10 +60,6 @@ p {
   box-shadow: 2px 2px var(--dark);
 }
 
-.btn-inline {
-  display: inline;
-}
-
 .hero {
   padding: 30px;
   text-align: center;
@@ -71,9 +67,6 @@ p {
   background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
 }
 
-.hero p {
-  max-width: 75%;
-}
 
 .app-title {
   font-size: 3rem;
@@ -107,38 +100,7 @@ p {
 #hicon {
   height: 100px;
 }
-.list-group {
-  padding: 0;
-  list-style: none;
-}
 
-.list-item {
-  margin-bottom: 10px;
-  padding: 1.5%;
-  border-radius: var(--border-radius);
-  background-color: var(--light-dark);
-  color: var(--primary);
-  text-decoration: none;
-}
-
-.list-item:hover {
-  background-color: var(--dark);
-}
-
-.status-icon {
-  padding: 2px 5px;
-  margin: 0 5px;
-  background-color: rgba(255,255,255, 1);
-  border-radius: var(--border-radius);
-}
-
-.icon-danger {
-  color: rgb(255, 70, 70);
-}
-
-.icon-success {
-  color: rgb(29, 153, 255);
-}
 
 /* CARDS */
 .card {
@@ -161,16 +123,11 @@ p {
 }
 
 /* FORM */
-/* .form-label, */
 .form-input,
 .form-textarea {
   display: block;
 }
 
-/* .form-label {
-  font-size: 1.1rem;
-  margin: 0 0 0 5px;
-} */
 
 .form-input {
   width: 100%;
@@ -200,48 +157,6 @@ p {
 .flex-row {
   display: flex;
   flex-wrap: wrap;
-}
-
-.flex-column {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-}
-
-.justify-space-between {
-  justify-content: space-between;
-}
-
-.justify-space-around {
-  justify-content: space-around;
-}
-
-.justify-flex-start {
-  justify-content: flex-start
-}
-
-.justify-flex-end {
-  justify-content: flex-end;
-}
-
-.justify-center {
-  justify-content: center;
-}
-
-.align-stretch {
-  align-items: stretch;
-}
-
-.align-end {
-  align-items: flex-end;
-}
-
-.align-center {
-  align-items: center;
-}
-
-.col-auto {
-  flex-grow: 1;
 }
 
 
