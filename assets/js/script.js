@@ -67,7 +67,7 @@ var getCityData = function (city) {
     .then(function(response){
       if(response.ok){
         response.json().then(function(data1){          
-          
+          console.log(data1);
           var iconUrl = "http://openweathermap.org/img/w/" + data1.weather[0].icon +".png";
           var iconDescription = data1.weather[0].description;
           $('.city-data').attr('style','display:block');
@@ -117,35 +117,39 @@ function displayWeather(weather) {
 
   for (var i=0; i < 40; i++) {
 
-    // to select exact time for the day, using hours as filter to get 5 days
+    // select exact time for the day, using hours as filter to get 5 days
 
     var hours = ((weather.list[i].dt_txt).substr(11,19));
-
     if (hours=="09:00:00") {
+      var date = (weather.list[i].dt_txt).substr(0,10);
+      var temp = weather.list[i].main.temp;
+      var wind = weather.list[i].wind.speed;
+      var humid = weather.list[i].main.humidity;
+      var icon = weather.list[i].weather[0].icon;
+      var description = weather.list[i].weather[0].description
 
     var dayBoxEl = document.createElement("div");
     dayBoxEl.classList="col bg-dark text-light m-1";    
     
     var dateWeatherEl = document.createElement("p");
-    dateWeatherEl.textContent = ((weather.list[i].dt_txt).substr(0,10));
+    dateWeatherEl.textContent = date;
     dayBoxEl.appendChild(dateWeatherEl);
 
     var iconWeatherEl = document.createElement("div");
-    var iconUrl = "http://openweathermap.org/img/w/" + weather.list[i].weather[0].icon +".png";
-    var iconDescription = weather.list[i].weather[0].description;
-    iconWeatherEl.innerHTML='<img id="wicon" src="'+iconUrl+'" alt="'+iconDescription+'"></img>';
+    var iconUrl = "http://openweathermap.org/img/w/" + icon +".png";
+    iconWeatherEl.innerHTML='<img id="wicon" src="'+iconUrl+'" alt="'+ description +'"></img>';
     dayBoxEl.appendChild(iconWeatherEl);
 
     var tempWeatherEl = document.createElement("p");
-    tempWeatherEl.textContent = "Temp: "+weather.list[i].main.temp+" °F";
+    tempWeatherEl.textContent = "Temp: "+ temp +" °F";
     dayBoxEl.appendChild(tempWeatherEl);
 
     var windWeatherEl = document.createElement("p");
-    windWeatherEl.textContent = "Wind: "+weather.list[i].wind.speed+" MPH";
+    windWeatherEl.textContent = "Wind: "+ wind +" MPH";
     dayBoxEl.appendChild(windWeatherEl);
 
     var humidWeatherEl = document.createElement("p");
-    humidWeatherEl.textContent = "Humidity: "+weather.list[i].main.humidity+" %"; 
+    humidWeatherEl.textContent = "Humidity: "+ humid +" %"; 
     dayBoxEl.appendChild(humidWeatherEl);
     fivedaysForecast.appendChild(dayBoxEl);    
     };
