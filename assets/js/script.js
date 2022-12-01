@@ -67,7 +67,7 @@ var getCityData = function (city) {
     .then(function(response){
       if(response.ok){
         response.json().then(function(data1){
-          var iconUrl = "http://openweathermap.org/img/w/" + data1.weather[0].icon +".png";
+          var iconUrl = "https://openweathermap.org/img/w/" + data1.weather[0].icon +".png";
           var iconDescription = data1.weather[0].description;
           $('.city-data').attr('style','display:block');
           cityDataSearch.textContent = data1.name+" ("+(dayjs().format("MMM D, YYYY"))+")";
